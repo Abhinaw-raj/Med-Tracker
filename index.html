@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedTrack - AI-Driven Medication Adherence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom Styles for MedTrack */
+        :root {
+            --primary-blue: #3b82f6;
+            --secondary-teal: #0d9488;
+            --accent-purple: #8b5cf6;
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
+            --error-red: #ef4444;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .bounce-in {
+            animation: bounceIn 1s ease-out;
+        }
+
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+
+        .floating-animation {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        .rotate-3d {
+            animation: rotate3d 8s linear infinite;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(139, 92, 246, 0.6);
+            }
+        }
+
+        @keyframes floating {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes rotate3d {
+            0% {
+                transform: perspective(1000px) rotateY(0deg);
+            }
+            100% {
+                transform: perspective(1000px) rotateY(360deg);
+            }
+        }
+
+        @keyframes pulse-animation {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+        }
+
+        .pulse-animation {
+            animation: pulse-animation 1.5s infinite;
+        }
+
+        /* Hover Effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .hover-shake:hover {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Page Transitions */
+        .page-enter {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+
+        .page-enter-active {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .page-exit {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .page-exit-active {
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        /* Loading Animation */
+        .loading-dots::after {
+            content: '';
+            animation: loadingDots 1.5s infinite;
+        }
+
+        @keyframes loadingDots {
+            0%, 20% {
+                content: '.';
+            }
+            40% {
+                content: '..';
+            }
+            60%, 100% {
+                content: '...';
+            }
+        }
+
+        /* Success Animation */
+        .success-checkmark {
+            animation: successCheck 0.5s ease-in-out;
+        }
+
+        @keyframes successCheck {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background: linear-gradient(to right, #2563eb, #1d4ed8);
+            color: white;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s;
+            transform: scale(1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #1d4ed8, #1e40af);
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #0d9488, #0f766e);
+            color: white;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s;
+            transform: scale(1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(to right, #0f766e, #115e59);
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-accent {
+            background: linear-gradient(to right, #8b5cf6, #7c3aed);
+            color: white;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s;
+            transform: scale(1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-accent:hover {
+            background: linear-gradient(to right, #7c3aed, #6d28d9);
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-outline {
+            border: 2px solid #3b82f6;
+            color: #3b82f6;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s;
+            transform: scale(1);
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-outline:hover {
+            background: #3b82f6;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Card Styles */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .gradient-card {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Navigation Styles */
+        .nav-link {
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary-blue), var(--accent-purple));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Section Transitions */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        /* Dashboard Styles */
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .dashboard-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 1.5rem;
+            transition: all 0.3s;
+            transform: scale(1);
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Form Styles */
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            outline: none;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input:focus {
+            border-color: transparent;
+            box-shadow: 0 0 0 2px #3b82f6;
+        }
+
+        .form-label {
+            display: block;
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.125rem;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary-blue), var(--accent-purple));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, var(--primary-blue), var(--secondary-teal));
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Notification Badge */
+        .notification-badge {
+            position: absolute;
+            top: -0.5rem;
+            right: -0.5rem;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 1.25rem;
+            height: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            background: #e5e7eb;
+            border-radius: 9999px;
+            height: 0.75rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #3b82f6, #10b981);
+            transition: all 1s ease-out;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            visibility: hidden;
+            position: absolute;
+        }
+
+        .has-tooltip:hover .tooltip {
+            visibility: visible;
+            z-index: 50;
+        }
+
+        /* WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100">
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-blue-200">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold mr-3 shadow-lg">
+                    <i class="fas fa-heartbeat text-xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-800 to-purple-600 bg-clip-text text-transparent">MedTrack</h1>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-link text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium">Home</a>
+                <a href="#about" class="nav-link text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium">About</a>
+                <a href="#features" class="nav-link text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium">Features</a>
+                <a href="#contact" class="nav-link text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium">Contact</a>
+                <div id="auth-links" class="flex space-x-4">
+                    <!-- Auth links will be populated by JavaScript -->
+                </div>
+            </nav>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 hover:text-blue-600 transition-colors">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white/95 backdrop-blur-md shadow-lg absolute top-full left-0 w-full py-6 px-6">
+            <div class="flex flex-col space-y-5">
+                <a href="#home" class="nav-link text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium text-lg">Home</a>
+                <a href="#about" class="nav-link text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium text-lg">About</a>
+                <a href="#features" class="nav-link text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium text-lg">Features</a>
+                <a href="#contact" class="nav-link text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium text-lg">Contact</a>
+                <div id="mobile-auth-links" class="flex flex-col space-y-4 pt-6 border-t border-gray-200">
+                    <!-- Mobile auth links will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="min-h-screen">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="container mx-auto px-4 py-20">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-12 md:mb-0 fade-in">
+                        <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-800 to-purple-600 bg-clip-text text-transparent mb-6 leading-tight">
+                            AI-Driven Medication Adherence System
+                        </h1>
+                        <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                            Revolutionizing healthcare through intelligent medication tracking, personalized reminders, and seamless doctor-patient communication.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="#login" class="btn-primary">
+                                <i class="fas fa-user-injured mr-2"></i> Patient Login
+                            </a>
+                            <a href="#login" class="btn-secondary">
+                                <i class="fas fa-user-md mr-2"></i> Doctor Login
+                            </a>
+                            <a href="#login" class="btn-accent">
+                                <i class="fas fa-user-shield mr-2"></i> Admin Panel
+                            </a>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center">
+                        <div class="relative w-full max-w-lg">
+                            <div class="floating-animation">
+                                <div class="bg-gradient-to-br from-white to-blue-50 rounded-3xl shadow-2xl p-8 border border-blue-100">
+                                    <div class="flex justify-center mb-6">
+                                        <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg">
+                                            <i class="fas fa-pills text-white text-4xl"></i>
+                                        </div>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-center text-gray-800 mb-4">Smart Medication Tracking</h3>
+                                    <p class="text-gray-600 text-center mb-6 text-lg">
+                                        Never miss a dose with our AI-powered reminder system and real-time adherence monitoring.
+                                    </p>
+                                    <div class="flex justify-center space-x-2">
+                                        <div class="w-3 h-3 bg-blue-500 rounded-full pulse-animation"></div>
+                                        <div class="w-3 h-3 bg-purple-500 rounded-full pulse-animation" style="animation-delay: 0.2s"></div>
+                                        <div class="w-3 h-3 bg-indigo-500 rounded-full pulse-animation" style="animation-delay: 0.4s"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-800 to-purple-600 bg-clip-text text-transparent mb-4">
+                        About MedTrack
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        We're transforming healthcare through innovative technology that ensures patients never miss their medications and doctors stay connected.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                    <div class="glass-card p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-brain text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">AI-Powered</h3>
+                        <p class="text-gray-600">Smart algorithms predict adherence patterns and provide personalized recommendations.</p>
+                    </div>
+
+                    <div class="glass-card p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-gradient-to-r from-teal-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-shield-alt text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Secure & Private</h3>
+                        <p class="text-gray-600">Your health data is protected with enterprise-grade security and privacy measures.</p>
+                    </div>
+
+                    <div class="glass-card p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-mobile-alt text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Mobile First</h3>
+                        <p class="text-gray-600">Access your medication schedule and health data from any device, anywhere.</p>
+                    </div>
+
+                    <div class="glass-card p-6 text-center hover-lift">
+                        <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-chart-line text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Real-time Analytics</h3>
+                        <p class="text-gray-600">Monitor adherence trends and get insights for better health outcomes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="section py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-800 to-purple-600 bg-clip-text text-transparent mb-4">
+                        Powerful Features
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Discover how MedTrack makes medication management effortless and effective for everyone.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-8">
+                        <div class="glass-card p-6 hover-lift">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fas fa-bell text-blue-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">Smart Reminders</h3>
+                                    <p class="text-gray-600">Intelligent medication reminders that adapt to your schedule and preferences.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-6 hover-lift">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fas fa-chart-pie text-teal-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">Adherence Tracking</h3>
+                                    <p class="text-gray-600">Visual dashboards showing your medication adherence rates and trends.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-6 hover-lift">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fas fa-comments text-purple-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2">Doctor Communication</h3>
+                                    <p class="text-gray-600">Secure messaging system to connect with your healthcare provider.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <div class="relative">
+                            <div class="floating-animation">
+                                <div class="bg-gradient-to-br from-white to-blue-50 rounded-3xl shadow-2xl p-8 border border-blue-100 max-w-md">
+                                    <div class="text-center mb-6">
+                                        <div class="w-20 h-20 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <i class="fas fa-check text-white text-3xl"></i>
+                                        </div>
+                                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Medication Taken</h3>
+                                        <p class="text-gray-600">Successfully logged your dose</p>
+                                    </div>
+                                    <div class="bg-gray-100 rounded-2xl p-4">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <span class="font-semibold text-gray-800">Lisinopril 10mg</span>
+                                            <span class="text-green-600 font-bold">✓ Taken</span>
+                                        </div>
+                                        <div class="text-sm text-gray-600">
+                                            <p>Time: 08:00 AM</p>
+                                            <p>Next dose: Tomorrow, 08:00 AM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-800 to-purple-600 bg-clip-text text-transparent mb-4">
+                        Get In Touch
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Have questions about our platform? We'd love to hear from you.
+                    </p>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <div class="glass-card p-8">
+                        <form id="contact-form" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="contact-name" class="form-label">Full Name</label>
+                                    <input type="text" id="contact-name" class="form-input" placeholder="Enter your name" required>
+                                </div>
+                                <div>
+                                    <label for="contact-email" class="form-label">Email Address</label>
+                                    <input type="email" id="contact-email" class="form-input" placeholder="Enter your email" required>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="contact-subject" class="form-label">Subject</label>
+                                <input type="text" id="contact-subject" class="form-input" placeholder="What's this about?" required>
+                            </div>
+                            <div>
+                                <label for="contact-message" class="form-label">Message</label>
+                                <textarea id="contact-message" rows="5" class="form-input" placeholder="Tell us how we can help you..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary w-full">
+                                <i class="fas fa-paper-plane mr-2"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Section -->
+        <section id="login" class="section py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
+            <div class="container mx-auto px-4 max-w-md">
+                <div class="glass-card p-8 shadow-2xl">
+                    <div class="text-center mb-8">
+                        <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-sign-in-alt text-white text-2xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-800">Welcome Back</h2>
+                        <p class="text-gray-600 mt-2">Sign in to your MedTrack account</p>
+                    </div>
+                    
+                    <form id="login-form" class="space-y-6">
+                        <div>
+                            <label for="login-email" class="form-label">Email Address</label>
+                            <input type="email" id="login-email" class="form-input" placeholder="Enter your email" required>
+                        </div>
+                        <div>
+                            <label for="login-password" class="form-label">Password</label>
+                            <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn-primary w-full">
+                            <i class="fas fa-lock mr-2"></i> Sign In
+                        </button>
+                    </form>
+                    
+                    <div class="text-center mt-6">
+                        <p class="text-gray-600">Don't have an account? 
+                            <a href="#register" class="text-blue-600 font-semibold hover:text-blue-700 transition-colors">Sign up here</a>
+                        </p>
+                    </div>
+                    
+                    <div class="mt-8 pt-6 border-t border-gray-200">
+                        <h3 class="text-center text-gray-700 font-semibold mb-4">Demo Credentials</h3>
+                        <div class="space-y-3">
+                            <div class="bg-blue-50 p-4 rounded-xl">
+                                <p class="text-sm text-gray-700"><span class="font-semibold">Admin:</span> admin@med.com / admin123</p>
+                            </div>
+                            <div class="bg-teal-50 p-4 rounded-xl">
+                                <p class="text-sm text-gray-700"><span class="font-semibold">Doctor:</span> doctor@med.com / doc123</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-xl">
+                                <p class="text-sm text-gray-700"><span class="font-semibold">Patient:</span> patient@med.com / patient123</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Register Section -->
+        <section id="register" class="section py-20 bg-gradient-to-br from-indigo-50 to-purple-100">
+            <div class="container mx-auto px-4 max-w-md">
+                <div class="glass-card p-8 shadow-2xl">
+                    <div class="text-center mb-8">
+                        <div class="w-20 h-20 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-user-plus text-white text-2xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-800">Create Account</h2>
+                        <p class="text-gray-600 mt-2">Join MedTrack as a patient</p>
+                    </div>
+                    
+                    <form id="register-form" class="space-y-6">
+                        <div>
+                            <label for="register-name" class="form-label">Full Name</label>
+                            <input type="text" id="register-name" class="form-input" placeholder="Enter your full name" required>
+                        </div>
+                        <div>
+                            <label for="register-email" class="form-label">Email Address</label>
+                            <input type="email" id="register-email" class="form-input" placeholder="Enter your email" required>
+                        </div>
+                        <div>
+                            <label for="register-password" class="form-label">Password</label>
+                            <input type="password" id="register-password" class="form-input" placeholder="Create a password" required>
+                        </div>
+                        <button type="submit" class="btn-accent w-full">
+                            <i class="fas fa-user-plus mr-2"></i> Create Account
+                        </button>
+                    </form>
+                    
+                    <div class="text-center mt-6">
+                        <p class="text-gray-600">Already have an account? 
+                            <a href="#login" class="text-indigo-600 font-semibold hover:text-indigo-700 transition-colors">Sign in here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Patient Dashboard -->
+        <section id="patient-dashboard" class="section min-h-screen bg-gray-50 py-8">
+            <div class="container mx-auto px-4">
+                <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-800">Patient Dashboard</h2>
+                            <p class="text-gray-600">Welcome back! Manage your medications and track your health.</p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-gray-700 font-semibold" id="patient-welcome">Loading...</span>
+                            <button class="logout-btn bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-2 px-4 rounded-xl transition-all duration-300">
+                                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="stat-card">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-blue-100">Adherence Rate</p>
+                                <h3 class="text-4xl font-bold text-white mt-2" id="adherence-rate">85%</h3>
+                            </div>
+                            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                                <i class="fas fa-chart-line text-white text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-blue-100">Current Streak</p>
+                                <h3 class="text-4xl font-bold text-white mt-2" id="current-streak">12 days</h3>
+                            </div>
+                            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                                <i class="fas fa-fire text-white text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-blue-100">Medications</p>
+                                <h3 class="text-4xl font-bold text-white mt-2" id="medication-count">2</h3>
+                            </div>
+                            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                                <i class="fas fa-pills text-white text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6">Your Medications</h3>
+                        <div id="medications-container" class="space-y-4">
+                            <!-- Medications will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-gray-900 to-blue-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white font-bold mr-3 shadow-lg">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">MedTrack</h2>
+                    </div>
+                    <p class="text-blue-200 mt-2">AI-Driven Medication Adherence System</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-blue-200">&copy; 2025 MedTrack. All rights reserved.</p>
+                    <p class="text-blue-300 text-sm mt-1">Transforming healthcare through technology</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/916204256836" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-gray-800 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-y-20 transition-all duration-500 z-50 hidden border-l-4 border-green-400">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle text-green-400 mr-3 text-xl"></i>
+            <span id="toast-message" class="font-medium">Operation completed successfully</span>
+        </div>
+    </div>
+
+    <script>
+        // Application State and Data Management
+        class MedTrackApp {
+            constructor() {
+                this.currentUser = null;
+                this.currentSection = 'home';
+                this.users = JSON.parse(localStorage.getItem('users')) || {};
+                this.medications = JSON.parse(localStorage.getItem('medications')) || {};
+                this.adherenceData = JSON.parse(localStorage.getItem('adherenceData')) || {};
+                this.messages = JSON.parse(localStorage.getItem('messages')) || {};
+                
+                this.init();
+            }
+
+            init() {
+                this.initializeDefaultData();
+                this.checkExistingSession();
+                this.setupEventListeners();
+                this.setupRouting();
+            }
+
+            initializeDefaultData() {
+                if (Object.keys(this.users).length === 0) {
+                    this.users = {
+                        'admin@med.com': {
+                            role: 'admin',
+                            name: 'CEO Admin',
+                            password: 'admin123',
+                            lastLogin: null,
+                            avatar: '👨‍💼'
+                        },
+                        'doctor@med.com': {
+                            role: 'doctor',
+                            name: 'Dr. Jane Smith',
+                            password: 'doc123',
+                            patients: ['patient@med.com'],
+                            lastLogin: null,
+                            avatar: '👩‍⚕',
+                            specialty: 'Cardiology'
+                        },
+                        'patient@med.com': {
+                            role: 'patient',
+                            name: 'John Doe',
+                            password: 'patient123',
+                            doctor: 'doctor@med.com',
+                            lastLogin: null,
+                            avatar: '👤',
+                            age: 45,
+                            condition: 'Hypertension'
+                        }
+                    };
+                    this.saveUsers();
+                }
+
+                // Initialize medications for demo patient
+                if (!this.medications['patient@med.com']) {
+                    this.medications['patient@med.com'] = [
+                        {
+                            id: 1,
+                            name: 'Lisinopril',
+                            dosage: '10mg',
+                            frequency: 'Once daily',
+                            time: '08:00',
+                            logged: ['2024-01-15T08:00:00', '2024-01-16T08:00:00', '2024-01-17T08:00:00'],
+                            type: 'Tablet',
+                            instructions: 'Take with food'
+                        },
+                        {
+                            id: 2,
+                            name: 'Atorvastatin',
+                            dosage: '20mg',
+                            frequency: 'Once daily',
+                            time: '20:00',
+                            logged: ['2024-01-15T20:00:00', '2024-01-16T20:00:00'],
+                            type: 'Tablet',
+                            instructions: 'Take at bedtime'
+                        }
+                    ];
+                    this.saveMedications();
+                }
+
+                // Initialize adherence data
+                if (!this.adherenceData['patient@med.com']) {
+                    this.adherenceData['patient@med.com'] = {
+                        overall: 85,
+                        weekly: [80, 85, 90, 85, 80, 85, 90],
+                        monthly: [75, 80, 85, 82, 85, 88, 85, 90, 85, 80, 85, 90],
+                        streak: 12
+                    };
+                    this.saveAdherenceData();
+                }
+
+                // Initialize messages
+                if (Object.keys(this.messages).length === 0) {
+                    this.messages = {
+                        'doctor@med.com': [
+                            {
+                                id: 1,
+                                from: 'patient@med.com',
+                                subject: 'Medication side effects',
+                                content: 'I\'ve been experiencing dizziness after taking my medication. Should I be concerned?',
+                                timestamp: new Date(Date.now() - 86400000).toISOString(),
+                                read: false,
+                                priority: 'medium'
+                            }
+                        ],
+                        'patient@med.com': [
+                            {
+                                id: 1,
+                                from: 'doctor@med.com',
+                                subject: 'Re: Medication side effects',
+                                content: 'Dizziness can be a side effect. Let\'s schedule a follow-up to adjust your dosage if needed.',
+                                timestamp: new Date(Date.now() - 43200000).toISOString(),
+                                read: true,
+                                priority: 'medium'
+                            }
+                        ]
+                    };
+                    this.saveMessages();
+                }
+            }
+
+            checkExistingSession() {
+                const sessionUser = sessionStorage.getItem('currentUser');
+                if (sessionUser) {
+                    this.currentUser = JSON.parse(sessionUser);
+                    this.showDashboard();
+                } else {
+                    this.showSection('home');
+                }
+            }
+
+            setupEventListeners() {
+                // Navigation
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const section = link.getAttribute('href').substring(1);
+                        this.showSection(section);
+                    });
+                });
+
+                // Mobile menu
+                document.getElementById('mobile-menu-button').addEventListener('click', () => {
+                    document.getElementById('mobile-menu').classList.toggle('open');
+                });
+
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('#mobile-menu') && !e.target.closest('#mobile-menu-button')) {
+                        document.getElementById('mobile-menu').classList.remove('open');
+                    }
+                });
+
+                // Setup forms
+                this.setupAuthForms();
+                this.setupContactForm();
+            }
+
+            setupAuthForms() {
+                // Login form
+                const loginForm = document.getElementById('login-form');
+                if (loginForm) {
+                    loginForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        this.handleLogin();
+                    });
+                }
+
+                // Register form
+                const registerForm = document.getElementById('register-form');
+                if (registerForm) {
+                    registerForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        this.handleRegistration();
+                    });
+                }
+
+                // Logout buttons
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('logout-btn')) {
+                        this.handleLogout();
+                    }
+                });
+            }
+
+            setupContactForm() {
+                const contactForm = document.getElementById('contact-form');
+                if (contactForm) {
+                    contactForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        this.handleContactForm();
+                    });
+                }
+            }
+
+            setupRouting() {
+                window.addEventListener('hashchange', () => {
+                    const section = window.location.hash.substring(1) || 'home';
+                    this.showSection(section);
+                });
+
+                const initialSection = window.location.hash.substring(1) || 'home';
+                this.showSection(initialSection);
+            }
+
+            showSection(section) {
+                // Hide all sections
+                document.querySelectorAll('.section').forEach(sec => {
+                    sec.classList.remove('active');
+                });
+
+                // Show requested section
+                const targetSection = document.getElementById(section);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                    this.currentSection = section;
+                    
+                    // Update URL without triggering hashchange
+                    window.location.hash = section;
+                    
+                    this.updateNavigation();
+                    this.loadSectionContent(section);
+                }
+            }
+
+            updateNavigation() {
+                const authLinks = document.getElementById('auth-links');
+                const mobileAuthLinks = document.getElementById('mobile-auth-links');
+
+                if (this.currentUser) {
+                    // User is logged in
+                    authLinks.innerHTML = `
+                        <div class="flex items-center space-x-4">
+                            <span class="text-gray-700 font-medium">Hello, ${this.currentUser.name}</span>
+                            <button class="logout-btn bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105">
+                                Logout
+                            </button>
+                        </div>
+                    `;
+
+                    mobileAuthLinks.innerHTML = `
+                        <div class="flex flex-col space-y-4">
+                            <span class="text-gray-700 font-medium text-lg py-2">Hello, ${this.currentUser.name}</span>
+                            <button class="logout-btn bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-3 px-6 rounded-xl transition-all duration-300 text-lg font-medium">
+                                Logout
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    // User is not logged in
+                    authLinks.innerHTML = `
+                        <div class="flex items-center space-x-4">
+                            <a href="#login" class="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium">Login</a>
+                            <a href="#register" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-2 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                Sign Up
+                            </a>
+                        </div>
+                    `;
+
+                    mobileAuthLinks.innerHTML = `
+                        <div class="flex flex-col space-y-4">
+                            <a href="#login" class="text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium text-lg py-2 text-center">Login</a>
+                            <a href="#register" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 px-6 rounded-xl transition-all duration-300 text-lg font-medium text-center shadow-lg">
+                                Sign Up
+                            </a>
+                        </div>
+                    `;
+                }
+
+                // Close mobile menu
+                document.getElementById('mobile-menu').classList.remove('open');
+            }
+
+            // Authentication Methods
+            handleLogin() {
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+
+                if (this.users[email] && this.users[email].password === password) {
+                    this.currentUser = {
+                        email: email,
+                        name: this.users[email].name,
+                        role: this.users[email].role,
+                        avatar: this.users[email].avatar
+                    };
+
+                    // Update last login
+                    this.users[email].lastLogin = new Date().toISOString();
+                    this.saveUsers();
+
+                    // Save to session storage
+                    sessionStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+
+                    this.showDashboard();
+                    this.showToast(`Welcome back, ${this.currentUser.name}! 🎉`, 'success');
+                    
+                    // Clear form
+                    document.getElementById('login-form').reset();
+                } else {
+                    this.showToast('Invalid email or password. Please try again.', 'error');
+                }
+            }
+
+            handleRegistration() {
+                const name = document.getElementById('register-name').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+
+                if (this.users[email]) {
+                    this.showToast('An account with this email already exists.', 'error');
+                    return;
+                }
+
+                // Create new patient account
+                this.users[email] = {
+                    role: 'patient',
+                    name: name,
+                    password: password,
+                    lastLogin: null,
+                    avatar: '👤'
+                };
+
+                // Initialize empty data for new patient
+                this.medications[email] = [];
+                this.adherenceData[email] = {
+                    overall: 0,
+                    weekly: [0, 0, 0, 0, 0, 0, 0],
+                    monthly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    streak: 0
+                };
+                this.messages[email] = [];
+
+                this.saveUsers();
+                this.saveMedications();
+                this.saveAdherenceData();
+                this.saveMessages();
+
+                this.showToast('Account created successfully! 🎉 You can now log in.', 'success');
+                this.showSection('login');
+                
+                // Clear form
+                document.getElementById('register-form').reset();
+            }
+
+            handleLogout() {
+                this.currentUser = null;
+                sessionStorage.removeItem('currentUser');
+                this.showSection('home');
+                this.showToast('You have been logged out successfully.', 'info');
+            }
+
+            handleContactForm() {
+                this.showToast('Thank you for your message! We will get back to you soon.', 'success');
+                document.getElementById('contact-form').reset();
+            }
+
+            showDashboard() {
+                if (!this.currentUser) return;
+
+                switch (this.currentUser.role) {
+                    case 'patient':
+                        this.showSection('patient-dashboard');
+                        break;
+                    case 'doctor':
+                        this.showSection('doctor-dashboard');
+                        break;
+                    case 'admin':
+                        this.showSection('admin-dashboard');
+                        break;
+                    default:
+                        this.showSection('patient-dashboard');
+                }
+            }
+
+            loadSectionContent(section) {
+                switch (section) {
+                    case 'patient-dashboard':
+                        this.loadPatientDashboard();
+                        break;
+                    case 'doctor-dashboard':
+                        // Implementation for doctor dashboard
+                        this.showToast('Doctor dashboard coming soon!', 'info');
+                        break;
+                    case 'admin-dashboard':
+                        // Implementation for admin dashboard
+                        this.showToast('Admin dashboard coming soon!', 'info');
+                        break;
+                }
+            }
+
+            loadPatientDashboard() {
+                if (!this.currentUser || this.currentUser.role !== 'patient') return;
+
+                const userEmail = this.currentUser.email;
+                const userData = this.users[userEmail];
+                const adherence = this.adherenceData[userEmail] || { overall: 0, streak: 0 };
+                const medications = this.medications[userEmail] || [];
+
+                // Update welcome message
+                const welcomeElement = document.getElementById('patient-welcome');
+                if (welcomeElement) {
+                    welcomeElement.textContent = this.currentUser.name;
+                }
+
+                // Update stats
+                document.getElementById('adherence-rate').textContent = `${adherence.overall}%`;
+                document.getElementById('current-streak').textContent = `${adherence.streak} days`;
+                document.getElementById('medication-count').textContent = medications.length;
+
+                // Load medications
+                this.loadPatientMedications(medications);
+            }
+
+            loadPatientMedications(medications) {
+                const container = document.getElementById('medications-container');
+                
+                if (!container) return;
+
+                if (medications.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-12">
+                            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-pills text-gray-400 text-3xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-600 mb-2">No Medications</h3>
+                            <p class="text-gray-500">You haven't added any medications yet.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = medications.map(med => `
+                    <div class="glass-card p-6 hover-lift">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-800">${med.name}</h4>
+                                <p class="text-gray-600">${med.dosage} • ${med.frequency} • ${med.time}</p>
+                            </div>
+                            <span class="bg-green-100 text-green-800 py-1 px-3 rounded-full text-sm font-medium">
+                                ${med.logged.length} doses taken
+                            </span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="log-dose-btn flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-xl transition-colors" data-id="${med.id}">
+                                <i class="fas fa-check mr-2"></i> Log Dose
+                            </button>
+                            <button class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-xl transition-colors">
+                                <i class="fas fa-edit mr-2"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Add event listeners for log dose buttons
+                document.querySelectorAll('.log-dose-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const medId = parseInt(e.target.getAttribute('data-id'));
+                        this.logDose(medId);
+                    });
+                });
+            }
+
+            logDose(medicationId) {
+                if (!this.currentUser) return;
+
+                const userEmail = this.currentUser.email;
+                const medications = this.medications[userEmail];
+                const medication = medications.find(med => med.id === medicationId);
+
+                if (medication) {
+                    const now = new Date().toISOString();
+                    medication.logged.push(now);
+                    this.saveMedications();
+
+                    // Update adherence data
+                    this.updateAdherenceData(userEmail);
+
+                    this.showToast(`Dose of ${medication.name} logged successfully! ✅`, 'success');
+                    this.loadPatientDashboard();
+                }
+            }
+
+            updateAdherenceData(userEmail) {
+                const medications = this.medications[userEmail] || [];
+                
+                if (medications.length === 0) {
+                    this.adherenceData[userEmail] = {
+                        overall: 0,
+                        weekly: [0, 0, 0, 0, 0, 0, 0],
+                        monthly: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        streak: 0
+                    };
+                } else {
+                    // Calculate adherence (simplified)
+                    let totalPossibleDoses = 0;
+                    let takenDoses = 0;
+
+                    medications.forEach(med => {
+                        // For demo, assume 30 days of possible doses
+                        totalPossibleDoses += 30;
+                        takenDoses += med.logged.length;
+                    });
+
+                    const adherenceRate = Math.round((takenDoses / totalPossibleDoses) * 100);
+                    const streak = Math.floor(Math.random() * 15) + 1; // Random streak for demo
+
+                    this.adherenceData[userEmail] = {
+                        overall: adherenceRate,
+                        weekly: Array(7).fill(0).map(() => Math.max(0, Math.min(100, adherenceRate + Math.floor(Math.random() * 20) - 10))),
+                        monthly: Array(12).fill(0).map(() => Math.max(0, Math.min(100, adherenceRate + Math.floor(Math.random() * 30) - 15))),
+                        streak: streak
+                    };
+                }
+
+                this.saveAdherenceData();
+            }
+
+            // Data Persistence Methods
+            saveUsers() {
+                localStorage.setItem('users', JSON.stringify(this.users));
+            }
+
+            saveMedications() {
+                localStorage.setItem('medications', JSON.stringify(this.medications));
+            }
+
+            saveAdherenceData() {
+                localStorage.setItem('adherenceData', JSON.stringify(this.adherenceData));
+            }
+
+            saveMessages() {
+                localStorage.setItem('messages', JSON.stringify(this.messages));
+            }
+
+            // Toast Notification System
+            showToast(message, type = 'success') {
+                const toast = document.getElementById('toast');
+                const toastMessage = document.getElementById('toast-message');
+                
+                // Set message and type
+                toastMessage.textContent = message;
+                
+                // Reset classes
+                toast.className = 'fixed bottom-6 right-6 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-y-20 transition-all duration-500 z-50 hidden border-l-4';
+                
+                // Add type-specific classes
+                switch (type) {
+                    case 'success':
+                        toast.classList.add('bg-gray-800', 'border-green-400');
+                        break;
+                    case 'error':
+                        toast.classList.add('bg-red-600', 'border-red-300');
+                        break;
+                    case 'warning':
+                        toast.classList.add('bg-yellow-600', 'border-yellow-300');
+                        break;
+                    case 'info':
+                        toast.classList.add('bg-blue-600', 'border-blue-300');
+                        break;
+                }
+                
+                // Show toast
+                toast.classList.remove('hidden', 'translate-y-20');
+                toast.classList.add('translate-y-0');
+                
+                // Auto hide after 4 seconds
+                setTimeout(() => {
+                    toast.classList.remove('translate-y-0');
+                    toast.classList.add('translate-y-20');
+                    
+                    setTimeout(() => {
+                        toast.classList.add('hidden');
+                    }, 500);
+                }, 4000);
+            }
+        }
+
+        // Initialize the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            window.medTrackApp = new MedTrackApp();
+        });
+    </script>
+</body>
+</html>
